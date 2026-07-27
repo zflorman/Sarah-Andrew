@@ -478,11 +478,15 @@
 
   // Speech progress board stats — edit freely
   const PROGRESS_STATS = [
-    { name: "Drafting stage", percent: 60 },
-    { name: "Funny stories gathered", percent: Math.round((12/10)*100), display: "12 / 10" },
-    { name: "Dad jokes considered (then rejected)", percent: 35, display: "35%" },
-    { name: "Tissues stockpiled", percent: 80, display: "80%" }
+    { name: "Drafting stage", percent: 0 },
+    { name: "Funny stories gathered", percent: 0, display: "0 / 10" },
+    { name: "Bad jokes considered", percent: 20 }
   ];
+
+  // "Tissues stockpiled" grows on its own — from TISSUE_START_PERCENT (as of TISSUE_START_DATE)
+  // up to 100% by the time the countdown hits zero.
+  const TISSUE_START_DATE = "2026-07-27"; // edit me — the day the stockpile was last measured
+  const TISSUE_START_PERCENT = 55; // edit me — how full it was on that day
   // ====== END EDITABLE CONSTANTS ======
 
   // ---- Countdown ----
@@ -519,21 +523,42 @@
     return '<div class="countdown-unit"><span class="countdown-num">' + value + '</span><span class="countdown-label">' + label + '</span></div>';
   }
 
-  renderCountdown();
-  setInterval(renderCountdown, 1000);
-
   // ---- Progress board ----
   const progressEl = document.getElementById("progress-live");
-  progressEl.innerHTML = PROGRESS_STATS.map(function(stat){
-    const pct = Math.max(0, Math.min(100, stat.percent));
-    const displayVal = stat.display || (pct + "%");
-    return (
-      '<div class="stat">' +
-        '<div class="stat-row"><span class="stat-name">' + escapeHtml(stat.name) + '</span><span class="stat-value">' + escapeHtml(displayVal) + '</span></div>' +
-        '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%"></div></div>' +
-      '</div>'
-    );
-  }).join("");
+
+  function computeTissuePercent(){
+    const start = new Date(TISSUE_START_DATE).getTime();
+    const end = weddingDate.getTime();
+    const now = Date.now();
+    if (isNaN(start) || isNaN(end) || end <= start) {
+      return TISSUE_START_PERCENT;
+    }
+    const frac = Math.max(0, Math.min(1, (now - start) / (end - start)));
+    return Math.round(TISSUE_START_PERCENT + (100 - TISSUE_START_PERCENT) * frac);
+  }
+
+  function renderProgress(){
+    const allStats = PROGRESS_STATS.concat([
+      { name: "Tissues stockpiled", percent: computeTissuePercent() }
+    ]);
+    progressEl.innerHTML = allStats.map(function(stat){
+      const pct = Math.max(0, Math.min(100, stat.percent));
+      const displayVal = stat.display || (pct + "%");
+      return (
+        '<div class="stat">' +
+          '<div class="stat-row"><span class="stat-name">' + escapeHtml(stat.name) + '</span><span class="stat-value">' + escapeHtml(displayVal) + '</span></div>' +
+          '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%"></div></div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  renderCountdown();
+  renderProgress();
+  setInterval(function(){
+    renderCountdown();
+    renderProgress();
+  }, 1000);
 
   function escapeHtml(str){
     const div = document.createElement("div");
