@@ -709,7 +709,11 @@
     fetch("https://api.web3forms.com/submit", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        // Deliberately "text/plain" (not "application/json"): a JSON Content-Type
+        // forces a CORS preflight, and Web3Forms's preflight response redirects,
+        // which browsers reject. "text/plain" is CORS-safelisted so no preflight
+        // is sent — Web3Forms still parses the JSON body correctly either way.
+        "Content-Type": "text/plain;charset=utf-8",
         "Accept": "application/json"
       },
       body: JSON.stringify(payload)
