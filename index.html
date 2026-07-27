@@ -331,7 +331,7 @@
           <textarea id="q_meet" name="q_meet"></textarea>
         </div>
         <div class="field">
-          <label for="q_first_impression">What was your first impression of your partner?</label>
+          <label for="q_first_impression">What was your first impression of <span class="partner-phrase">your partner</span>?</label>
           <textarea id="q_first_impression" name="q_first_impression"></textarea>
         </div>
         <div class="field">
@@ -339,7 +339,7 @@
           <textarea id="q_first_date" name="q_first_date"></textarea>
         </div>
         <div class="field">
-          <label for="q_first_words">What was the first thing your partner said to you?</label>
+          <label for="q_first_words">What was the first thing <span class="partner-phrase">your partner</span> said to you?</label>
           <textarea id="q_first_words" name="q_first_words"></textarea>
         </div>
         <div class="field">
@@ -359,15 +359,15 @@
       <fieldset>
         <legend>Personality, Habits &amp; Favorites</legend>
         <div class="field">
-          <label for="q_three_favorites">What are your three favorite things about your partner?</label>
+          <label for="q_three_favorites">What are your three favorite things about <span class="partner-phrase">your partner</span>?</label>
           <textarea id="q_three_favorites" name="q_three_favorites"></textarea>
         </div>
         <div class="field">
-          <label for="q_annoying">What is the most annoying thing your partner does?</label>
+          <label for="q_annoying">What is the most annoying thing <span class="partner-phrase">your partner</span> does?</label>
           <textarea id="q_annoying" name="q_annoying"></textarea>
         </div>
         <div class="field">
-          <label for="q_good_at">What is something your partner is particularly good at?</label>
+          <label for="q_good_at">What is something <span class="partner-phrase">your partner</span> is particularly good at?</label>
           <textarea id="q_good_at" name="q_good_at"></textarea>
         </div>
         <div class="field">
@@ -573,12 +573,20 @@
     }
   }
 
+  const partnerPhrases = Array.from(document.querySelectorAll(".partner-phrase"));
+  function updatePartnerPhrases(){
+    const who = whoSelect.value;
+    const partnerName = who === "Sarah" ? "Andrew" : who === "Andrew" ? "Sarah" : "your partner";
+    partnerPhrases.forEach(function(el){ el.textContent = partnerName; });
+  }
+
   let previousWho = "";
   whoSelect.addEventListener("change", function(){
     saveAnswersForPrevious();
     previousWho = whoSelect.value;
     loadAnswersFor(whoSelect.value);
     updateSubject();
+    updatePartnerPhrases();
   });
 
   function saveAnswersForPrevious(){
@@ -617,6 +625,7 @@
       previousWho = lastWho;
       loadAnswersFor(lastWho);
       updateSubject();
+      updatePartnerPhrases();
     }
   } catch (e) {}
 
