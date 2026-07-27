@@ -5,466 +5,474 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sarah &amp; Andrew — Wedding Questionnaire</title>
 <meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Pinyon+Script&display=swap" rel="stylesheet">
 <style>
   :root{
-    --cream:#fdf8f3;
-    --paper:#ffffff;
-    --ink:#2c2620;
-    --ink-soft:#5c5348;
-    --line:#e6dccc;
-    --accent:#a8556b;
-    --accent-dark:#7d3a4c;
-    --accent-soft:#f3e2e6;
-    --gold:#c9a24b;
-    --focus:#3a6ea5;
-    --radius:14px;
-    --shadow:0 4px 18px rgba(60,40,30,0.08);
-  }
-  @media (prefers-color-scheme: dark){
-    :root{
-      --cream:#221d19;
-      --paper:#2b241f;
-      --ink:#f2ece3;
-      --ink-soft:#c9beac;
-      --line:#463c33;
-      --accent:#e08ba0;
-      --accent-dark:#f2a9ba;
-      --accent-soft:#3a2a2e;
-      --gold:#e0bd6b;
-      --focus:#7fb2e8;
-      --shadow:0 4px 18px rgba(0,0,0,0.35);
-    }
+    --cream:#f4efe6;
+    --paper:#fffdf9;
+    --ink:#2a2521;
+    --ink-soft:#8a7f72;
+    --ink-mid:#4a4239;
+    --ink-body:#3b342c;
+    --line:#e6dcc8;
+    --line-soft:#e2d7c3;
+    --line-faint:#eee4d1;
+    --gold:#a9863f;
+    --gold-light:#b9964f;
+    --gold-dark:#8d6d2e;
+    --gold-pale:#d9c9a4;
+    --error:#9c4a3c;
+    --radius:2px;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
     background:var(--cream);
     color:var(--ink);
-    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
-    line-height:1.55;
-    -webkit-font-smoothing:antialiased;
+    font-family:'EB Garamond',Georgia,serif;
+    font-size:17px;
+    line-height:1.6;
   }
-  .wrap{
-    max-width:760px;
-    margin:0 auto;
-    padding:2rem 1.25rem 5rem;
+  ::selection{background:#e6d9bd;color:var(--ink);}
+  a{color:var(--gold);text-decoration:none;}
+  a:hover{color:var(--gold-dark);}
+  textarea,select,button,input{font-family:inherit;}
+  textarea::placeholder{color:#b6ab9b;font-style:italic;}
+  select:focus-visible,textarea:focus-visible,button:focus-visible{
+    outline:1.5px solid var(--gold-light);outline-offset:3px;
   }
-  header.hero{
-    text-align:center;
-    padding:2.5rem 1rem 2rem;
-    position:relative;
+  .page{
+    min-height:100vh;
+    background:radial-gradient(120% 60% at 50% 0%, #fbf7ef 0%, var(--cream) 60%, #efe8dc 100%);
   }
-  .ampersand{
-    font-family:Georgia,serif;
-    font-style:italic;
-    color:var(--gold);
-    font-size:1.6rem;
-    letter-spacing:0.05em;
+
+  /* ---- Sticky progress rail ---- */
+  .rail{
+    position:sticky;top:0;z-index:20;
+    background:rgba(247,242,234,.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line-soft);
   }
-  h1{
-    font-size:clamp(1.8rem,5vw,2.6rem);
-    margin:0.3rem 0 0.2rem;
-    font-weight:600;
-    letter-spacing:0.01em;
+  .rail-inner{
+    max-width:860px;margin:0 auto;padding:10px 24px;
+    display:flex;align-items:center;justify-content:space-between;gap:20px;
   }
-  .subtitle{
-    color:var(--ink-soft);
-    font-size:1.05rem;
-    margin:0;
+  .rail-brand{
+    font-family:'Cormorant Garamond',serif;font-size:15px;
+    letter-spacing:.22em;text-transform:uppercase;color:#6b6157;
   }
-  .divider{
-    width:60px;
-    height:2px;
-    background:var(--gold);
-    margin:1.25rem auto;
-    border:none;
-    opacity:0.7;
+  .rail-progress{
+    flex:1;display:flex;align-items:center;gap:12px;max-width:420px;
   }
-  section{
-    background:var(--paper);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:1.5rem 1.5rem;
-    margin-bottom:1.5rem;
-    box-shadow:var(--shadow);
+  .rail-track{flex:1;height:1px;background:var(--line-soft);position:relative;}
+  .rail-fill{
+    position:absolute;left:0;top:-1px;height:3px;
+    background:linear-gradient(90deg,#cbb27a,var(--gold));
+    transition:width .5s ease;width:0%;
   }
-  .welcome-note{
-    font-size:1.02rem;
-    color:var(--ink);
+  .rail-count,.rail-days{
+    font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);
+    white-space:nowrap;font-variant-numeric:tabular-nums;
   }
-  .welcome-note p{margin:0;}
-  .welcome-note .note-callout{
-    margin-top:1rem;
-    padding-top:1rem;
-    border-top:1px dashed var(--line);
-    font-size:0.92rem;
-    color:var(--ink-soft);
-    font-style:italic;
+
+  /* ---- Hero ---- */
+  .hero-wrap{max-width:860px;margin:0 auto;padding:64px 24px 8px;}
+  .invite{
+    position:relative;background:var(--paper);border:1px solid var(--line);
+    box-shadow:0 18px 50px -30px rgba(70,52,28,.45), 0 2px 0 #f0e8d8;
+    padding:clamp(40px,7vw,84px) clamp(24px,6vw,72px);
+    overflow:hidden;text-align:center;
   }
-  .card-title{
-    font-size:0.78rem;
-    text-transform:uppercase;
-    letter-spacing:0.12em;
-    color:var(--accent-dark);
-    font-weight:700;
-    margin:0 0 0.75rem;
+  .invite-inner-border{position:absolute;inset:14px;border:1px solid #e0d2b4;pointer-events:none;}
+  .sprig{position:absolute;width:190px;height:190px;opacity:.75;color:var(--gold-light);}
+  .sprig--tl{top:-6px;left:-10px;}
+  .sprig--br{bottom:-6px;right:-10px;transform:rotate(180deg);}
+  .eyebrow{margin:0 0 26px;font-size:13px;letter-spacing:.34em;text-transform:uppercase;color:var(--ink-soft);}
+  .invite h1{
+    margin:0;font-family:'Cormorant Garamond',serif;font-weight:400;
+    font-size:clamp(34px,7vw,62px);letter-spacing:.14em;line-height:1.1;text-transform:uppercase;
   }
-  /* Countdown */
-  .countdown-grid{
-    display:flex;
-    gap:0.75rem;
-    justify-content:center;
-    flex-wrap:wrap;
-    margin-top:0.5rem;
+  .and{font-family:'Pinyon Script',cursive;font-size:clamp(28px,4vw,40px);color:var(--gold);line-height:1.4;margin:6px 0 2px;}
+  .rule{display:flex;align-items:center;justify-content:center;gap:14px;margin:34px auto 0;max-width:420px;}
+  .rule-line{flex:1;height:1px;}
+  .rule-line--l{background:linear-gradient(90deg,transparent,var(--gold-pale));}
+  .rule-line--r{background:linear-gradient(90deg,var(--gold-pale),transparent);}
+  .rule-dot{width:5px;height:5px;background:var(--gold-light);transform:rotate(45deg);}
+  .invite-date{margin:26px 0 0;font-family:'Cormorant Garamond',serif;font-size:clamp(19px,2.4vw,24px);letter-spacing:.05em;color:var(--ink-mid);}
+  .invite-date sup{font-size:.62em;vertical-align:.6em;}
+  .invite-sub{margin:8px 0 0;font-style:italic;color:var(--ink-soft);font-size:16px;}
+
+  /* ---- Content ---- */
+  .content{max-width:860px;margin:0 auto;padding:0 24px 90px;}
+
+  .panel{background:var(--paper);border:1px solid var(--line);}
+  .stats-grid{
+    margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:1px;background:var(--line);border:1px solid var(--line);
   }
-  .countdown-unit{
-    background:var(--accent-soft);
-    border-radius:10px;
-    padding:0.8rem 0.6rem;
-    min-width:74px;
-    text-align:center;
-    flex:1 1 74px;
-  }
-  .countdown-num{
-    font-size:1.9rem;
-    font-weight:700;
-    color:var(--accent-dark);
-    font-variant-numeric:tabular-nums;
-    display:block;
-  }
-  .countdown-label{
-    font-size:0.7rem;
-    text-transform:uppercase;
-    letter-spacing:0.08em;
-    color:var(--ink-soft);
-  }
-  .countdown-done{
-    text-align:center;
-    font-size:1.2rem;
-    color:var(--accent-dark);
-    font-weight:600;
-  }
-  /* Progress board */
-  .stat{
-    margin-bottom:1rem;
-  }
+  .stats-cell{background:var(--paper);padding:26px 24px;}
+  .kicker{margin:0 0 16px;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);}
+  .clock-row{display:flex;gap:18px;flex-wrap:wrap;}
+  .clock-unit{text-align:left;}
+  .clock-value{font-family:'Cormorant Garamond',serif;font-size:38px;line-height:1;font-variant-numeric:tabular-nums;color:var(--ink);}
+  .clock-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-top:6px;}
+
+  .stat{margin-bottom:12px;}
   .stat:last-child{margin-bottom:0;}
-  .stat-row{
-    display:flex;
-    justify-content:space-between;
-    font-size:0.95rem;
-    margin-bottom:0.35rem;
-    gap:0.5rem;
-    flex-wrap:wrap;
+  .stat-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:15px;}
+  .stat-name{color:var(--ink-mid);}
+  .stat-value{color:var(--gold);font-variant-numeric:tabular-nums;}
+  .stat-track{height:1px;background:var(--line-faint);margin-top:6px;position:relative;}
+  .stat-fill{position:absolute;left:0;top:0;height:1px;background:var(--gold-light);transition:width .6s ease;}
+
+  .intro{margin-top:28px;padding:30px clamp(22px,4vw,42px);}
+  .intro p{margin:0;font-size:18px;line-height:1.7;color:var(--ink-body);text-wrap:pretty;}
+  .intro .autosave{
+    margin:20px 0 0;padding-top:18px;border-top:1px solid var(--line-faint);
+    font-size:15.5px;font-style:italic;color:#7b7165;line-height:1.65;text-wrap:pretty;
   }
-  .stat-name{color:var(--ink);}
-  .stat-value{color:var(--accent-dark);font-weight:700;}
-  .bar-track{
-    background:var(--accent-soft);
-    border-radius:99px;
-    height:10px;
-    overflow:hidden;
+
+  .who-panel{
+    margin-top:28px;padding:30px clamp(22px,4vw,42px);
+    display:flex;flex-wrap:wrap;align-items:center;gap:18px;justify-content:space-between;
   }
-  .bar-fill{
-    height:100%;
-    background:linear-gradient(90deg, var(--gold), var(--accent));
-    border-radius:99px;
-    transition:width 0.6s ease;
+  .who-panel label{display:block;font-family:'Cormorant Garamond',serif;font-size:24px;letter-spacing:.02em;color:var(--ink);}
+  .who-panel .hint{margin:4px 0 0;font-size:15px;font-style:italic;color:var(--ink-soft);}
+  #who{
+    min-width:220px;font-size:17px;color:var(--ink);background:#faf5eb;
+    border:1px solid #ded1b6;border-radius:999px;padding:12px 20px;letter-spacing:.04em;cursor:pointer;
   }
-  @media (prefers-reduced-motion: reduce){
-    .bar-fill{transition:none;}
+
+  fieldset{border:none;padding:0;margin:44px 0 0;}
+  fieldset + fieldset{margin-top:52px;}
+  .section-head{display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--line-soft);padding-bottom:10px;}
+  .numeral{font-family:'Cormorant Garamond',serif;font-size:15px;letter-spacing:.2em;color:var(--gold-light);}
+  .section-head h2{margin:0;font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(26px,3.4vw,34px);letter-spacing:.03em;}
+  .fields{display:flex;flex-direction:column;gap:26px;margin-top:28px;}
+  .field label{display:block;font-size:18px;color:var(--ink-body);margin-bottom:8px;}
+  .field textarea{
+    width:100%;min-height:104px;font-size:17px;line-height:1.6;color:var(--ink);
+    background:var(--paper);border:1px solid var(--line-soft);border-radius:var(--radius);
+    padding:14px 16px;resize:vertical;
   }
-  .stat-fun{
-    font-size:0.85rem;
-    color:var(--ink-soft);
-    margin-top:0.2rem;
-    font-style:italic;
+  .field textarea:focus{border-color:var(--gold-light);background:#fffefb;}
+  #q_anything_else{min-height:170px;}
+
+  .submit-panel{margin-top:56px;text-align:center;padding:40px 24px;}
+  .submit-btn{
+    font-family:'Cormorant Garamond',serif;font-size:20px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--paper);background:var(--gold);border:none;border-radius:999px;padding:16px 52px;
+    cursor:pointer;transition:background .2s ease, transform .15s ease;
   }
-  /* Form */
-  .field{
-    margin-bottom:1.25rem;
-  }
-  label{
-    display:block;
-    font-weight:600;
-    margin-bottom:0.4rem;
-    font-size:0.98rem;
-  }
-  label .req{color:var(--accent-dark);}
-  .hint{
-    font-size:0.82rem;
-    color:var(--ink-soft);
-    margin:-0.2rem 0 0.5rem;
-  }
-  select, textarea, input[type="text"]{
-    width:100%;
-    font-family:inherit;
-    font-size:1rem;
-    color:var(--ink);
-    background:var(--cream);
-    border:1px solid var(--line);
-    border-radius:10px;
-    padding:0.7rem 0.8rem;
-    resize:vertical;
-  }
-  textarea{min-height:5.5rem;}
-  select:focus-visible, textarea:focus-visible, input:focus-visible, button:focus-visible{
-    outline:3px solid var(--focus);
-    outline-offset:2px;
-  }
-  .who-select{
-    font-size:1.1rem;
-    font-weight:600;
-    padding:0.85rem 1rem;
-  }
-  fieldset{
-    border:none;
-    padding:0;
-    margin:0 0 2rem;
-  }
-  fieldset legend{
-    font-size:1.3rem;
-    font-weight:700;
-    color:var(--accent-dark);
-    padding:0 0 0.3rem;
-    border-bottom:2px solid var(--gold);
-    width:100%;
-    margin-bottom:1.25rem;
-  }
-  .category-desc{
-    font-size:0.88rem;
-    color:var(--ink-soft);
-    margin:-0.6rem 0 1.25rem;
-  }
-  .submit-row{
-    text-align:center;
-    margin-top:1rem;
-  }
-  button.submit-btn{
-    background:var(--accent);
-    color:#fff;
-    border:none;
-    font-family:inherit;
-    font-size:1.1rem;
-    font-weight:700;
-    padding:0.9rem 2.4rem;
-    border-radius:99px;
-    cursor:pointer;
-    box-shadow:var(--shadow);
-    transition:background 0.2s ease, transform 0.2s ease;
-  }
-  button.submit-btn:hover{background:var(--accent-dark);}
-  button.submit-btn:active{transform:scale(0.98);}
-  button.submit-btn:disabled{
-    opacity:0.6;
-    cursor:not-allowed;
-  }
-  .status-msg{
-    margin-top:1rem;
-    font-size:0.95rem;
-    text-align:center;
-  }
-  .status-msg.error{color:var(--accent-dark);font-weight:600;}
-  .status-msg.saving{color:var(--ink-soft);}
-  .autosave-note{
-    text-align:center;
-    font-size:0.8rem;
-    color:var(--ink-soft);
-    margin-top:0.5rem;
-  }
-  .thankyou{
-    text-align:center;
-    padding:3rem 1rem;
-  }
-  .thankyou .ampersand{font-size:2rem;}
-  .thankyou h2{
-    font-size:1.8rem;
-    margin:0.5rem 0 0.75rem;
-    color:var(--accent-dark);
-  }
-  .thankyou p{
-    color:var(--ink-soft);
-    font-size:1.05rem;
-  }
-  footer{
-    text-align:center;
-    color:var(--ink-soft);
-    font-size:0.8rem;
-    margin-top:2rem;
-  }
+  .submit-btn:hover{background:var(--gold-dark);}
+  .submit-btn:active{transform:scale(.985);}
+  .submit-btn:disabled{opacity:.6;cursor:not-allowed;}
+  .save-note{margin:16px 0 0;font-size:14px;font-style:italic;color:var(--ink-soft);}
+  .status-msg{margin:10px 0 0;font-size:15px;color:var(--ink-soft);}
+  .status-msg.error{color:var(--error);}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .thankyou{margin-top:28px;padding:80px 32px;text-align:center;animation:fadeUp .6s ease both;}
+  .thankyou .script{font-family:'Pinyon Script',cursive;font-size:56px;color:var(--gold);line-height:1;}
+  .thankyou .rule{margin:28px auto;max-width:300px;}
+  .thankyou p{margin:0 auto;max-width:460px;font-size:19px;line-height:1.7;color:var(--ink-mid);}
+
+  footer{margin-top:60px;text-align:center;}
+  .footer-rule{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:16px;}
+  .footer-rule .rule-line{flex:0 1 120px;}
+  .footer-rule .rule-line--l{background:linear-gradient(90deg,transparent,#dbcdab);}
+  .footer-rule .rule-line--r{background:linear-gradient(90deg,#dbcdab,transparent);}
+  .footer-rule .rule-dot{width:4px;height:4px;background:#c3a978;}
+  footer p{margin:0;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:#9c9184;}
+
   .hidden{display:none !important;}
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="page">
 
-  <header class="hero">
-    <div class="ampersand">Sarah &amp; Andrew</div>
-    <h1>Wedding Questionnaire</h1>
-    <p class="subtitle">A little homework for the two of you, from your officiant.</p>
-    <hr class="divider">
+  <div class="rail">
+    <div class="rail-inner">
+      <span class="rail-brand">S &amp; A</span>
+      <div class="rail-progress">
+        <div class="rail-track"><div class="rail-fill" id="rail-fill"></div></div>
+        <span class="rail-count" id="rail-count">0 of 23</span>
+      </div>
+      <span class="rail-days" id="rail-days">&hellip; days</span>
+    </div>
+  </div>
+
+  <header class="hero-wrap">
+    <div class="invite">
+      <div class="invite-inner-border"></div>
+
+      <svg class="sprig sprig--tl" viewBox="0 0 200 200" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+          <path d="M18 178 C 22 120, 34 66, 74 28"></path>
+          <path d="M74 28 C 108 22, 146 24, 184 34" stroke-width="1.2"></path>
+        </g>
+        <g fill="currentColor" opacity=".85">
+          <ellipse cx="30" cy="150" rx="9" ry="3.4" transform="rotate(-38 30 150)"></ellipse>
+          <ellipse cx="46" cy="150" rx="9" ry="3.4" transform="rotate(22 46 150)"></ellipse>
+          <ellipse cx="34" cy="126" rx="9.5" ry="3.6" transform="rotate(-38 34 126)"></ellipse>
+          <ellipse cx="51" cy="127" rx="9.5" ry="3.6" transform="rotate(22 51 127)"></ellipse>
+          <ellipse cx="41" cy="102" rx="10" ry="3.8" transform="rotate(-38 41 102)"></ellipse>
+          <ellipse cx="59" cy="104" rx="10" ry="3.8" transform="rotate(22 59 104)"></ellipse>
+          <ellipse cx="53" cy="79" rx="9.5" ry="3.6" transform="rotate(-46 53 79)"></ellipse>
+          <ellipse cx="71" cy="83" rx="9.5" ry="3.6" transform="rotate(14 71 83)"></ellipse>
+          <ellipse cx="70" cy="57" rx="9" ry="3.4" transform="rotate(-52 70 57)"></ellipse>
+          <ellipse cx="88" cy="63" rx="9" ry="3.4" transform="rotate(8 88 63)"></ellipse>
+          <ellipse cx="96" cy="40" rx="9" ry="3.3" transform="rotate(-24 96 40)"></ellipse>
+          <ellipse cx="104" cy="57" rx="9" ry="3.3" transform="rotate(18 104 57)"></ellipse>
+          <ellipse cx="124" cy="38" rx="9" ry="3.3" transform="rotate(-16 124 38)"></ellipse>
+          <ellipse cx="130" cy="56" rx="9" ry="3.3" transform="rotate(22 130 56)"></ellipse>
+          <ellipse cx="152" cy="40" rx="8.5" ry="3.2" transform="rotate(-14 152 40)"></ellipse>
+          <ellipse cx="158" cy="57" rx="8.5" ry="3.2" transform="rotate(24 158 57)"></ellipse>
+        </g>
+      </svg>
+
+      <svg class="sprig sprig--br" viewBox="0 0 200 200" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+          <path d="M18 178 C 22 120, 34 66, 74 28"></path>
+          <path d="M74 28 C 108 22, 146 24, 184 34" stroke-width="1.2"></path>
+        </g>
+        <g fill="currentColor" opacity=".85">
+          <ellipse cx="30" cy="150" rx="9" ry="3.4" transform="rotate(-38 30 150)"></ellipse>
+          <ellipse cx="46" cy="150" rx="9" ry="3.4" transform="rotate(22 46 150)"></ellipse>
+          <ellipse cx="34" cy="126" rx="9.5" ry="3.6" transform="rotate(-38 34 126)"></ellipse>
+          <ellipse cx="51" cy="127" rx="9.5" ry="3.6" transform="rotate(22 51 127)"></ellipse>
+          <ellipse cx="41" cy="102" rx="10" ry="3.8" transform="rotate(-38 41 102)"></ellipse>
+          <ellipse cx="59" cy="104" rx="10" ry="3.8" transform="rotate(22 59 104)"></ellipse>
+          <ellipse cx="53" cy="79" rx="9.5" ry="3.6" transform="rotate(-46 53 79)"></ellipse>
+          <ellipse cx="71" cy="83" rx="9.5" ry="3.6" transform="rotate(14 71 83)"></ellipse>
+          <ellipse cx="70" cy="57" rx="9" ry="3.4" transform="rotate(-52 70 57)"></ellipse>
+          <ellipse cx="88" cy="63" rx="9" ry="3.4" transform="rotate(8 88 63)"></ellipse>
+          <ellipse cx="96" cy="40" rx="9" ry="3.3" transform="rotate(-24 96 40)"></ellipse>
+          <ellipse cx="104" cy="57" rx="9" ry="3.3" transform="rotate(18 104 57)"></ellipse>
+          <ellipse cx="124" cy="38" rx="9" ry="3.3" transform="rotate(-16 124 38)"></ellipse>
+          <ellipse cx="130" cy="56" rx="9" ry="3.3" transform="rotate(22 130 56)"></ellipse>
+          <ellipse cx="152" cy="40" rx="8.5" ry="3.2" transform="rotate(-14 152 40)"></ellipse>
+          <ellipse cx="158" cy="57" rx="8.5" ry="3.2" transform="rotate(24 158 57)"></ellipse>
+        </g>
+      </svg>
+
+      <p class="eyebrow">A little homework from your officiant</p>
+      <h1>Sarah Baker</h1>
+      <div class="and">and</div>
+      <h1>Andrew Hamill</h1>
+
+      <div class="rule">
+        <div class="rule-line rule-line--l"></div>
+        <span class="rule-dot"></span>
+        <div class="rule-line rule-line--r"></div>
+      </div>
+
+      <p class="invite-date">Saturday, October 10<sup>th</sup>, 2026 &middot; The Mansion at Strathmore</p>
+      <p class="invite-sub">Ceremony questionnaire &mdash; please each fill out your own.</p>
+    </div>
   </header>
 
-  <section class="welcome-note">
-    <p>Hello! If you fill out this &quot;questionnaire&quot; it will help me to start thinking about your ceremony language. I won&rsquo;t necessarily use any or all of the information in your responses for the ceremony (though I might, so be specific if you don&rsquo;t want me to use something), but it&rsquo;s good background/vibes. Please each fill out your own version and send back, by August 6 if possible.</p>
-    <p class="note-callout">Good to know: as you type, your answers save automatically right in this browser on your own device &mdash; nothing is sent anywhere until you hit &ldquo;Send answers.&rdquo; So there&rsquo;s no need to do it all in one sitting &mdash; close the tab whenever you like and come back later to pick up where you left off. Just make sure it&rsquo;s the <strong>same device and same browser</strong> each time (not incognito/private mode) &mdash; the saved draft doesn&rsquo;t sync anywhere else. Once you actually press &ldquo;Send answers&rdquo; and see the thank-you message, your responses are already safely on their way to your officiant.</p>
-  </section>
+  <div class="content">
 
-  <section id="countdown-section">
-    <p class="card-title">Countdown to the big day</p>
-    <div id="countdown-live"></div>
-  </section>
+    <section class="stats-grid">
+      <div class="stats-cell">
+        <p class="kicker">Until the vows</p>
+        <div class="clock-row" id="clock-row"></div>
+      </div>
+      <div class="stats-cell">
+        <p class="kicker">Officiant&rsquo;s speech progress</p>
+        <div id="stats-list"></div>
+      </div>
+    </section>
 
-  <section id="progress-section">
-    <p class="card-title">Speech progress board</p>
-    <div id="progress-live"></div>
-  </section>
+    <section class="panel intro">
+      <p class="kicker">Before you begin</p>
+      <p>If you fill out this &ldquo;questionnaire&rdquo; it will help me start thinking about your ceremony language. I won&rsquo;t necessarily use any or all of it (though I might &mdash; so be specific if you&rsquo;d rather I didn&rsquo;t), but it&rsquo;s good background and vibes. Please each fill out your own version and send it back <strong style="font-weight:500;">by August 6</strong> if you can.</p>
+      <p class="autosave">Your answers save automatically to this browser as you type &mdash; close the tab and come back any time, as long as it&rsquo;s the same device and browser (not private mode). Nothing reaches your officiant until you press &ldquo;Send answers.&rdquo;</p>
+    </section>
 
-  <section>
     <form id="quest-form" novalidate>
 
-      <div class="field">
-        <label for="who">Who&rsquo;s answering? <span class="req">*</span></label>
-        <select id="who" name="who" class="who-select" required>
-          <option value="" disabled selected>Select your name&hellip;</option>
+      <section class="panel who-panel">
+        <div>
+          <label for="who">Who&rsquo;s answering?</label>
+          <p class="hint">Only your officiant sees this &mdash; your partner won&rsquo;t.</p>
+        </div>
+        <select id="who" name="who">
+          <option value="">Select your name&hellip;</option>
           <option value="Sarah">Sarah</option>
           <option value="Andrew">Andrew</option>
         </select>
-        <p class="hint">Your answers are only ever sent to your officiant &mdash; your partner won&rsquo;t see them.</p>
-      </div>
+      </section>
 
       <fieldset>
-        <legend>The Origin Story &amp; Milestones</legend>
-        <div class="field">
-          <label for="q_meet">How did you meet?</label>
-          <textarea id="q_meet" name="q_meet"></textarea>
+        <div class="section-head">
+          <span class="numeral">I</span>
+          <h2>The origin story</h2>
         </div>
-        <div class="field">
-          <label for="q_first_impression">What was your first impression of <span class="partner-phrase">your partner</span>?</label>
-          <textarea id="q_first_impression" name="q_first_impression"></textarea>
-        </div>
-        <div class="field">
-          <label for="q_first_date">Where was your first date?</label>
-          <textarea id="q_first_date" name="q_first_date"></textarea>
-        </div>
-        <div class="field">
-          <label for="q_first_words">What was the first thing <span class="partner-phrase">your partner</span> said to you?</label>
-          <textarea id="q_first_words" name="q_first_words"></textarea>
-        </div>
-        <div class="field">
-          <label for="q_second_date">Where was your second date?</label>
-          <textarea id="q_second_date" name="q_second_date"></textarea>
-        </div>
-        <div class="field">
-          <label for="q_first_trip">Where was your first trip together?</label>
-          <textarea id="q_first_trip" name="q_first_trip"></textarea>
-        </div>
-        <div class="field">
-          <label for="q_the_one">When was the exact moment you knew they were &ldquo;the one&rdquo;?</label>
-          <textarea id="q_the_one" name="q_the_one"></textarea>
+        <div class="fields">
+          <div class="field">
+            <label for="q_meet">How did you meet?</label>
+            <textarea id="q_meet" name="q_meet" placeholder="Take your time&hellip;"></textarea>
+          </div>
+          <div class="field">
+            <label for="q_first_impression">What was your first impression of <span class="partner-name">your partner</span>?</label>
+            <textarea id="q_first_impression" name="q_first_impression" placeholder="Take your time&hellip;"></textarea>
+          </div>
+          <div class="field">
+            <label for="q_first_date">Where was your first date?</label>
+            <textarea id="q_first_date" name="q_first_date" placeholder="Take your time&hellip;"></textarea>
+          </div>
+          <div class="field">
+            <label for="q_first_words">What was the first thing <span class="partner-name">your partner</span> said to you?</label>
+            <textarea id="q_first_words" name="q_first_words" placeholder="Take your time&hellip;"></textarea>
+          </div>
+          <div class="field">
+            <label for="q_second_date">Where was your second date?</label>
+            <textarea id="q_second_date" name="q_second_date" placeholder="Take your time&hellip;"></textarea>
+          </div>
+          <div class="field">
+            <label for="q_first_trip">Where was your first trip together?</label>
+            <textarea id="q_first_trip" name="q_first_trip" placeholder="Take your time&hellip;"></textarea>
+          </div>
+          <div class="field">
+            <label for="q_the_one">When was the exact moment you knew they were &ldquo;the one&rdquo;?</label>
+            <textarea id="q_the_one" name="q_the_one" placeholder="Take your time&hellip;"></textarea>
+          </div>
         </div>
       </fieldset>
 
       <fieldset>
-        <legend>Personality, Habits &amp; Favorites</legend>
-        <div class="field">
-          <label for="q_three_favorites">What are your three favorite things about <span class="partner-phrase">your partner</span>?</label>
-          <textarea id="q_three_favorites" name="q_three_favorites"></textarea>
+        <div class="section-head">
+          <span class="numeral">II</span>
+          <h2>Personality, habits &amp; favorites</h2>
         </div>
-        <div class="field">
-          <label for="q_annoying">What is the most annoying thing <span class="partner-phrase">your partner</span> does?</label>
-          <textarea id="q_annoying" name="q_annoying"></textarea>
-        </div>
-        <div class="field">
-          <label for="q_good_at">What is something <span class="partner-phrase">your partner</span> is particularly good at?</label>
-          <textarea id="q_good_at" name="q_good_at"></textarea>
-        </div>
-        <div class="field">
-          <label for="q_activities">What are your favorite activities to do together?</label>
-          <textarea id="q_activities" name="q_activities"></textarea>
-        </div>
-        <div class="field">
-          <label for="q_not_together">What do you definitely not like to do together?</label>
-          <textarea id="q_not_together" name="q_not_together"></textarea>
-        </div>
-        <div class="field">
-          <label for="q_holidays">What are your favorite holidays to celebrate together?</label>
-          <textarea id="q_holidays" name="q_holidays"></textarea>
-        </div>
-        <div class="field">
-          <label for="q_traditions">What traditions do you share?</label>
-          <textarea id="q_traditions" name="q_traditions"></textarea>
-        </div>
-        <div class="field">
-          <label for="q_media">What are your favorite books? Movies? TV shows? Podcasts?</label>
-          <textarea id="q_media" name="q_media"></textarea>
-        </div>
-        <div class="field">
-          <label for="q_debate">Lighthearted debate: Who takes longer to get ready? Any other funny inside jokes?</label>
-          <textarea id="q_debate" name="q_debate"></textarea>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>The Ceremony &amp; Future Vision</legend>
-        <div class="field">
-          <label for="q_vibe">What do you want the overall vibe of your wedding ceremony to be?</label>
-          <textarea id="q_vibe" name="q_vibe"></textarea>
-        </div>
-        <div class="field">
-          <label for="q_structure">Do you have a vision for the structure of the ceremony?</label>
-          <textarea id="q_structure" name="q_structure"></textarea>
-        </div>
-        <div class="field">
-          <label for="q_readings">Do you want any specific passages/quotes read during the ceremony?</label>
-          <textarea id="q_readings" name="q_readings"></textarea>
-        </div>
-        <div class="field">
-          <label for="q_future">What are your shared dreams, bucket list goals, or promises for the future?</label>
-          <textarea id="q_future" name="q_future"></textarea>
+        <div class="fields">
+          <div class="field">
+            <label for="q_three_favorites">What are your three favorite things about <span class="partner-name">your partner</span>?</label>
+            <textarea id="q_three_favorites" name="q_three_favorites" placeholder="Take your time&hellip;"></textarea>
+          </div>
+          <div class="field">
+            <label for="q_annoying">What is the most annoying thing <span class="partner-name">your partner</span> does?</label>
+            <textarea id="q_annoying" name="q_annoying" placeholder="Take your time&hellip;"></textarea>
+          </div>
+          <div class="field">
+            <label for="q_good_at">What is something <span class="partner-name">your partner</span> is particularly good at?</label>
+            <textarea id="q_good_at" name="q_good_at" placeholder="Take your time&hellip;"></textarea>
+          </div>
+          <div class="field">
+            <label for="q_activities">What are your favorite activities to do together?</label>
+            <textarea id="q_activities" name="q_activities" placeholder="Take your time&hellip;"></textarea>
+          </div>
+          <div class="field">
+            <label for="q_not_together">What do you definitely not like to do together?</label>
+            <textarea id="q_not_together" name="q_not_together" placeholder="Take your time&hellip;"></textarea>
+          </div>
+          <div class="field">
+            <label for="q_holidays">What are your favorite holidays to celebrate together?</label>
+            <textarea id="q_holidays" name="q_holidays" placeholder="Take your time&hellip;"></textarea>
+          </div>
+          <div class="field">
+            <label for="q_traditions">What traditions do you share?</label>
+            <textarea id="q_traditions" name="q_traditions" placeholder="Take your time&hellip;"></textarea>
+          </div>
+          <div class="field">
+            <label for="q_media">What are your favorite books? Movies? TV shows? Podcasts?</label>
+            <textarea id="q_media" name="q_media" placeholder="Take your time&hellip;"></textarea>
+          </div>
+          <div class="field">
+            <label for="q_debate">Lighthearted debate: who takes longer to get ready? Any other inside jokes?</label>
+            <textarea id="q_debate" name="q_debate" placeholder="Take your time&hellip;"></textarea>
+          </div>
         </div>
       </fieldset>
 
       <fieldset>
-        <legend>Deep &amp; Sentimental</legend>
-        <div class="field">
-          <label for="q_support">How do you support each other through hard times?</label>
-          <textarea id="q_support" name="q_support"></textarea>
+        <div class="section-head">
+          <span class="numeral">III</span>
+          <h2>The ceremony &amp; the future</h2>
         </div>
-        <div class="field">
-          <label for="q_mutual_stories">What are your favorite stories involving mutual friends or family members?</label>
-          <textarea id="q_mutual_stories" name="q_mutual_stories"></textarea>
+        <div class="fields">
+          <div class="field">
+            <label for="q_vibe">What do you want the overall vibe of the ceremony to be?</label>
+            <textarea id="q_vibe" name="q_vibe" placeholder="Take your time&hellip;"></textarea>
+          </div>
+          <div class="field">
+            <label for="q_structure">Do you have a vision for the structure of the ceremony?</label>
+            <textarea id="q_structure" name="q_structure" placeholder="Take your time&hellip;"></textarea>
+          </div>
+          <div class="field">
+            <label for="q_readings">Any specific passages or quotes you&rsquo;d like read?</label>
+            <textarea id="q_readings" name="q_readings" placeholder="Take your time&hellip;"></textarea>
+          </div>
+          <div class="field">
+            <label for="q_future">What are your shared dreams, bucket-list goals, or promises for the future?</label>
+            <textarea id="q_future" name="q_future" placeholder="Take your time&hellip;"></textarea>
+          </div>
         </div>
       </fieldset>
 
       <fieldset>
-        <legend>Anything Else</legend>
-        <div class="field">
-          <label for="q_anything_else">Anything else I should know, or anything you want to secretly share with me?</label>
-          <textarea id="q_anything_else" name="q_anything_else" style="min-height:8rem;"></textarea>
+        <div class="section-head">
+          <span class="numeral">IV</span>
+          <h2>Deep &amp; sentimental</h2>
+        </div>
+        <div class="fields">
+          <div class="field">
+            <label for="q_support">How do you support each other through hard times?</label>
+            <textarea id="q_support" name="q_support" placeholder="Take your time&hellip;"></textarea>
+          </div>
+          <div class="field">
+            <label for="q_mutual_stories">Favorite stories involving mutual friends or family?</label>
+            <textarea id="q_mutual_stories" name="q_mutual_stories" placeholder="Take your time&hellip;"></textarea>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="section-head">
+          <span class="numeral">V</span>
+          <h2>Anything else</h2>
+        </div>
+        <div class="fields">
+          <div class="field">
+            <label for="q_anything_else">Anything else I should know &mdash; or anything you want to tell me in confidence?</label>
+            <textarea id="q_anything_else" name="q_anything_else" placeholder="Secrets welcome&hellip;"></textarea>
+          </div>
         </div>
       </fieldset>
 
       <input type="hidden" name="subject" id="subject-field" value="Wedding questionnaire">
       <input type="hidden" name="from_name" value="Sarah & Andrew Wedding Questionnaire Site">
 
-      <div class="submit-row">
+      <section class="panel submit-panel">
         <button type="submit" class="submit-btn" id="submit-btn">Send answers</button>
-        <p class="autosave-note" id="autosave-note">Your answers autosave to this device as you type.</p>
+        <p class="save-note" id="save-note">Pick a name above and your answers will autosave to this device.</p>
         <p class="status-msg" id="status-msg" role="status" aria-live="polite"></p>
-      </div>
+      </section>
     </form>
 
-    <div class="thankyou hidden" id="thankyou-panel">
-      <div class="ampersand">&hearts;</div>
-      <h2>Thank you!</h2>
-      <p>Your answers have been sent along. I can&rsquo;t wait to read them &mdash; see you both soon.</p>
-    </div>
-  </section>
+    <section class="panel thankyou hidden" id="thankyou-panel">
+      <div class="script">Thank you</div>
+      <div class="rule">
+        <div class="rule-line rule-line--l"></div>
+        <span class="rule-dot"></span>
+        <div class="rule-line rule-line--r"></div>
+      </div>
+      <p>Your answers are on their way. I can&rsquo;t wait to read them &mdash; see you both on the tenth of October.</p>
+    </section>
 
-  <footer>
-    Made with care for Sarah &amp; Andrew&rsquo;s big day.
-  </footer>
+    <footer>
+      <div class="footer-rule">
+        <div class="rule-line rule-line--l"></div>
+        <span class="rule-dot"></span>
+        <div class="rule-line rule-line--r"></div>
+      </div>
+      <p>Made with care for Sarah &amp; Andrew&rsquo;s big day</p>
+    </footer>
+  </div>
 </div>
 
 <script>
@@ -489,76 +497,14 @@
   const TISSUE_START_PERCENT = 55; // edit me — how full it was on that day
   // ====== END EDITABLE CONSTANTS ======
 
-  // ---- Countdown ----
-  const countdownEl = document.getElementById("countdown-live");
+  const TOTAL_QUESTIONS = 23;
   const weddingDate = new Date(WEDDING_DATE);
 
-  function renderCountdown(){
-    const now = new Date();
-    const diff = weddingDate - now;
-    if (isNaN(weddingDate.getTime())) {
-      countdownEl.innerHTML = '<p class="hint">Set WEDDING_DATE in the code to see the countdown.</p>';
-      return;
-    }
-    if (diff <= 0) {
-      countdownEl.innerHTML = '<p class="countdown-done">It&rsquo;s wedding day! 🎉</p>';
-      return;
-    }
-    const totalSeconds = Math.floor(diff / 1000);
-    const days = Math.floor(totalSeconds / 86400);
-    const hours = Math.floor((totalSeconds % 86400) / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-
-    countdownEl.innerHTML =
-      '<div class="countdown-grid">' +
-        unit(days, "Days") +
-        unit(hours, "Hours") +
-        unit(minutes, "Minutes") +
-        unit(seconds, "Seconds") +
-      '</div>';
-  }
-
-  function unit(value, label){
-    return '<div class="countdown-unit"><span class="countdown-num">' + value + '</span><span class="countdown-label">' + label + '</span></div>';
-  }
-
-  // ---- Progress board ----
-  const progressEl = document.getElementById("progress-live");
-
-  function computeTissuePercent(){
-    const start = new Date(TISSUE_START_DATE).getTime();
-    const end = weddingDate.getTime();
-    const now = Date.now();
-    if (isNaN(start) || isNaN(end) || end <= start) {
-      return TISSUE_START_PERCENT;
-    }
-    const frac = Math.max(0, Math.min(1, (now - start) / (end - start)));
-    return Math.round(TISSUE_START_PERCENT + (100 - TISSUE_START_PERCENT) * frac);
-  }
-
-  function renderProgress(){
-    const allStats = PROGRESS_STATS.concat([
-      { name: "Tissues stockpiled", percent: computeTissuePercent() }
-    ]);
-    progressEl.innerHTML = allStats.map(function(stat){
-      const pct = Math.max(0, Math.min(100, stat.percent));
-      const displayVal = stat.display || (pct + "%");
-      return (
-        '<div class="stat">' +
-          '<div class="stat-row"><span class="stat-name">' + escapeHtml(stat.name) + '</span><span class="stat-value">' + escapeHtml(displayVal) + '</span></div>' +
-          '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%"></div></div>' +
-        '</div>'
-      );
-    }).join("");
-  }
-
-  renderCountdown();
-  renderProgress();
-  setInterval(function(){
-    renderCountdown();
-    renderProgress();
-  }, 1000);
+  const clockRow = document.getElementById("clock-row");
+  const statsList = document.getElementById("stats-list");
+  const railFill = document.getElementById("rail-fill");
+  const railCount = document.getElementById("rail-count");
+  const railDays = document.getElementById("rail-days");
 
   function escapeHtml(str){
     const div = document.createElement("div");
@@ -566,15 +512,75 @@
     return div.innerHTML;
   }
 
+  function clockUnit(value, label){
+    return '<div class="clock-unit"><div class="clock-value">' + value + '</div><div class="clock-label">' + label + '</div></div>';
+  }
+
+  function computeClock(){
+    const diff = Math.max(0, weddingDate.getTime() - Date.now());
+    const s = Math.floor(diff / 1000);
+    return {
+      days: Math.floor(s / 86400),
+      hours: Math.floor((s % 86400) / 3600),
+      minutes: Math.floor((s % 3600) / 60),
+      seconds: s % 60
+    };
+  }
+
+  function computeTissuePercent(){
+    const start = new Date(TISSUE_START_DATE).getTime();
+    const end = weddingDate.getTime();
+    if (isNaN(start) || isNaN(end) || end <= start) return TISSUE_START_PERCENT;
+    const frac = Math.max(0, Math.min(1, (Date.now() - start) / (end - start)));
+    return Math.round(TISSUE_START_PERCENT + (100 - TISSUE_START_PERCENT) * frac);
+  }
+
+  function renderClockAndStats(){
+    const clock = computeClock();
+    clockRow.innerHTML =
+      clockUnit(clock.days, "Days") +
+      clockUnit(clock.hours, "Hours") +
+      clockUnit(clock.minutes, "Minutes") +
+      clockUnit(clock.seconds, "Seconds");
+
+    const allStats = PROGRESS_STATS.concat([
+      { name: "Tissues stockpiled", percent: computeTissuePercent() }
+    ]);
+    statsList.innerHTML = allStats.map(function(stat){
+      const pct = Math.max(0, Math.min(100, stat.percent));
+      const displayVal = stat.display || (pct + "%");
+      return (
+        '<div class="stat">' +
+          '<div class="stat-row"><span class="stat-name">' + escapeHtml(stat.name) + '</span><span class="stat-value">' + escapeHtml(displayVal) + '</span></div>' +
+          '<div class="stat-track"><div class="stat-fill" style="width:' + pct + '%"></div></div>' +
+        '</div>'
+      );
+    }).join("");
+
+    railDays.textContent = clock.days + " days";
+  }
+
+  function renderRailProgress(){
+    const answered = questionFields.filter(function(f){ return f.value.trim(); }).length;
+    const pct = Math.round((answered / TOTAL_QUESTIONS) * 100);
+    railFill.style.width = pct + "%";
+    railCount.textContent = answered + " of " + TOTAL_QUESTIONS;
+  }
+
+  renderClockAndStats();
+  setInterval(renderClockAndStats, 1000);
+
   // ---- Form: autosave to localStorage, keyed by who's answering ----
   const form = document.getElementById("quest-form");
   const whoSelect = document.getElementById("who");
   const submitBtn = document.getElementById("submit-btn");
   const statusMsg = document.getElementById("status-msg");
+  const saveNote = document.getElementById("save-note");
   const thankyouPanel = document.getElementById("thankyou-panel");
   const subjectField = document.getElementById("subject-field");
 
   const questionFields = Array.from(form.querySelectorAll("textarea[name]"));
+  renderRailProgress();
 
   function storageKey(who){
     return "wedding-questionnaire:" + who;
@@ -607,31 +613,18 @@
     }
   }
 
-  const partnerPhrases = Array.from(document.querySelectorAll(".partner-phrase"));
-  function updatePartnerPhrases(){
+  const partnerNameEls = Array.from(document.querySelectorAll(".partner-name"));
+  function updatePartnerNames(){
     const who = whoSelect.value;
     const partnerName = who === "Sarah" ? "Andrew" : who === "Andrew" ? "Sarah" : "your partner";
-    partnerPhrases.forEach(function(el){ el.textContent = partnerName; });
+    partnerNameEls.forEach(function(el){ el.textContent = partnerName; });
   }
 
-  let previousWho = "";
-  whoSelect.addEventListener("change", function(){
-    saveAnswersForPrevious();
-    previousWho = whoSelect.value;
-    loadAnswersFor(whoSelect.value);
-    updateSubject();
-    updatePartnerPhrases();
-  });
-
-  function saveAnswersForPrevious(){
-    if (!previousWho) return;
-    const data = {};
-    questionFields.forEach(function(field){
-      data[field.name] = field.value;
-    });
-    try {
-      localStorage.setItem(storageKey(previousWho), JSON.stringify(data));
-    } catch (e) {}
+  function updateSaveNote(){
+    const who = whoSelect.value;
+    saveNote.textContent = who
+      ? "Saved to this device as " + who + " — come back any time."
+      : "Pick a name above and your answers will autosave to this device.";
   }
 
   function updateSubject(){
@@ -639,8 +632,20 @@
     subjectField.value = "Wedding questionnaire — " + who;
   }
 
+  whoSelect.addEventListener("change", function(){
+    loadAnswersFor(whoSelect.value);
+    updateSubject();
+    updatePartnerNames();
+    updateSaveNote();
+    renderRailProgress();
+    try { localStorage.setItem("wedding-questionnaire:last-who", whoSelect.value); } catch (e) {}
+  });
+
   questionFields.forEach(function(field){
-    field.addEventListener("input", debounce(saveAnswers, 400));
+    field.addEventListener("input", debounce(function(){
+      saveAnswers();
+      renderRailProgress();
+    }, 400));
   });
 
   function debounce(fn, wait){
@@ -656,16 +661,13 @@
     const lastWho = localStorage.getItem("wedding-questionnaire:last-who");
     if (lastWho === "Sarah" || lastWho === "Andrew") {
       whoSelect.value = lastWho;
-      previousWho = lastWho;
       loadAnswersFor(lastWho);
       updateSubject();
-      updatePartnerPhrases();
+      updatePartnerNames();
+      updateSaveNote();
+      renderRailProgress();
     }
   } catch (e) {}
-
-  whoSelect.addEventListener("change", function(){
-    try { localStorage.setItem("wedding-questionnaire:last-who", whoSelect.value); } catch (e) {}
-  });
 
   // ---- Submit via Web3Forms ----
   form.addEventListener("submit", function(e){
@@ -674,7 +676,7 @@
     statusMsg.className = "status-msg";
 
     if (!whoSelect.value) {
-      statusMsg.textContent = "Please select who's answering before sending.";
+      statusMsg.textContent = "Please choose who's answering before sending.";
       statusMsg.className = "status-msg error";
       whoSelect.focus();
       return;
@@ -692,20 +694,17 @@
     const payload = {
       access_key: WEB3FORMS_ACCESS_KEY,
       subject: subjectField.value,
-      from_name: "Wedding Questionnaire Site",
+      from_name: "Sarah & Andrew Wedding Questionnaire Site",
       "Answering as": whoSelect.value
     };
     questionFields.forEach(function(field){
-      const label = field.previousElementSibling && field.previousElementSibling.tagName === "LABEL"
-        ? field.previousElementSibling.textContent
-        : field.name;
-      payload[label] = field.value || "(no answer)";
+      const label = field.parentElement.querySelector("label");
+      payload[label ? label.textContent : field.name] = field.value || "(no answer)";
     });
 
     submitBtn.disabled = true;
-    statusMsg.textContent = "Sending your answers&hellip;";
-    statusMsg.className = "status-msg saving";
-    statusMsg.innerHTML = "Sending your answers&hellip;";
+    statusMsg.textContent = "Sending your answers…";
+    statusMsg.className = "status-msg";
 
     fetch("https://api.web3forms.com/submit", {
       method: "POST",
