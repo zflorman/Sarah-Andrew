@@ -1,0 +1,696 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sarah &amp; Andrew — Wedding Questionnaire</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  :root{
+    --cream:#fdf8f3;
+    --paper:#ffffff;
+    --ink:#2c2620;
+    --ink-soft:#5c5348;
+    --line:#e6dccc;
+    --accent:#a8556b;
+    --accent-dark:#7d3a4c;
+    --accent-soft:#f3e2e6;
+    --gold:#c9a24b;
+    --focus:#3a6ea5;
+    --radius:14px;
+    --shadow:0 4px 18px rgba(60,40,30,0.08);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --cream:#221d19;
+      --paper:#2b241f;
+      --ink:#f2ece3;
+      --ink-soft:#c9beac;
+      --line:#463c33;
+      --accent:#e08ba0;
+      --accent-dark:#f2a9ba;
+      --accent-soft:#3a2a2e;
+      --gold:#e0bd6b;
+      --focus:#7fb2e8;
+      --shadow:0 4px 18px rgba(0,0,0,0.35);
+    }
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:760px;
+    margin:0 auto;
+    padding:2rem 1.25rem 5rem;
+  }
+  header.hero{
+    text-align:center;
+    padding:2.5rem 1rem 2rem;
+    position:relative;
+  }
+  .ampersand{
+    font-family:Georgia,serif;
+    font-style:italic;
+    color:var(--gold);
+    font-size:1.6rem;
+    letter-spacing:0.05em;
+  }
+  h1{
+    font-size:clamp(1.8rem,5vw,2.6rem);
+    margin:0.3rem 0 0.2rem;
+    font-weight:600;
+    letter-spacing:0.01em;
+  }
+  .subtitle{
+    color:var(--ink-soft);
+    font-size:1.05rem;
+    margin:0;
+  }
+  .divider{
+    width:60px;
+    height:2px;
+    background:var(--gold);
+    margin:1.25rem auto;
+    border:none;
+    opacity:0.7;
+  }
+  section{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:1.5rem 1.5rem;
+    margin-bottom:1.5rem;
+    box-shadow:var(--shadow);
+  }
+  .welcome-note{
+    font-size:1.02rem;
+    color:var(--ink);
+  }
+  .welcome-note p{margin:0;}
+  .card-title{
+    font-size:0.78rem;
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    color:var(--accent-dark);
+    font-weight:700;
+    margin:0 0 0.75rem;
+  }
+  /* Countdown */
+  .countdown-grid{
+    display:flex;
+    gap:0.75rem;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-top:0.5rem;
+  }
+  .countdown-unit{
+    background:var(--accent-soft);
+    border-radius:10px;
+    padding:0.8rem 0.6rem;
+    min-width:74px;
+    text-align:center;
+    flex:1 1 74px;
+  }
+  .countdown-num{
+    font-size:1.9rem;
+    font-weight:700;
+    color:var(--accent-dark);
+    font-variant-numeric:tabular-nums;
+    display:block;
+  }
+  .countdown-label{
+    font-size:0.7rem;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--ink-soft);
+  }
+  .countdown-done{
+    text-align:center;
+    font-size:1.2rem;
+    color:var(--accent-dark);
+    font-weight:600;
+  }
+  /* Progress board */
+  .stat{
+    margin-bottom:1rem;
+  }
+  .stat:last-child{margin-bottom:0;}
+  .stat-row{
+    display:flex;
+    justify-content:space-between;
+    font-size:0.95rem;
+    margin-bottom:0.35rem;
+    gap:0.5rem;
+    flex-wrap:wrap;
+  }
+  .stat-name{color:var(--ink);}
+  .stat-value{color:var(--accent-dark);font-weight:700;}
+  .bar-track{
+    background:var(--accent-soft);
+    border-radius:99px;
+    height:10px;
+    overflow:hidden;
+  }
+  .bar-fill{
+    height:100%;
+    background:linear-gradient(90deg, var(--gold), var(--accent));
+    border-radius:99px;
+    transition:width 0.6s ease;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .bar-fill{transition:none;}
+  }
+  .stat-fun{
+    font-size:0.85rem;
+    color:var(--ink-soft);
+    margin-top:0.2rem;
+    font-style:italic;
+  }
+  /* Form */
+  .field{
+    margin-bottom:1.25rem;
+  }
+  label{
+    display:block;
+    font-weight:600;
+    margin-bottom:0.4rem;
+    font-size:0.98rem;
+  }
+  label .req{color:var(--accent-dark);}
+  .hint{
+    font-size:0.82rem;
+    color:var(--ink-soft);
+    margin:-0.2rem 0 0.5rem;
+  }
+  select, textarea, input[type="text"]{
+    width:100%;
+    font-family:inherit;
+    font-size:1rem;
+    color:var(--ink);
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:0.7rem 0.8rem;
+    resize:vertical;
+  }
+  textarea{min-height:5.5rem;}
+  select:focus-visible, textarea:focus-visible, input:focus-visible, button:focus-visible{
+    outline:3px solid var(--focus);
+    outline-offset:2px;
+  }
+  .who-select{
+    font-size:1.1rem;
+    font-weight:600;
+    padding:0.85rem 1rem;
+  }
+  fieldset{
+    border:none;
+    padding:0;
+    margin:0 0 2rem;
+  }
+  fieldset legend{
+    font-size:1.3rem;
+    font-weight:700;
+    color:var(--accent-dark);
+    padding:0 0 0.3rem;
+    border-bottom:2px solid var(--gold);
+    width:100%;
+    margin-bottom:1.25rem;
+  }
+  .category-desc{
+    font-size:0.88rem;
+    color:var(--ink-soft);
+    margin:-0.6rem 0 1.25rem;
+  }
+  .submit-row{
+    text-align:center;
+    margin-top:1rem;
+  }
+  button.submit-btn{
+    background:var(--accent);
+    color:#fff;
+    border:none;
+    font-family:inherit;
+    font-size:1.1rem;
+    font-weight:700;
+    padding:0.9rem 2.4rem;
+    border-radius:99px;
+    cursor:pointer;
+    box-shadow:var(--shadow);
+    transition:background 0.2s ease, transform 0.2s ease;
+  }
+  button.submit-btn:hover{background:var(--accent-dark);}
+  button.submit-btn:active{transform:scale(0.98);}
+  button.submit-btn:disabled{
+    opacity:0.6;
+    cursor:not-allowed;
+  }
+  .status-msg{
+    margin-top:1rem;
+    font-size:0.95rem;
+    text-align:center;
+  }
+  .status-msg.error{color:var(--accent-dark);font-weight:600;}
+  .status-msg.saving{color:var(--ink-soft);}
+  .autosave-note{
+    text-align:center;
+    font-size:0.8rem;
+    color:var(--ink-soft);
+    margin-top:0.5rem;
+  }
+  .thankyou{
+    text-align:center;
+    padding:3rem 1rem;
+  }
+  .thankyou .ampersand{font-size:2rem;}
+  .thankyou h2{
+    font-size:1.8rem;
+    margin:0.5rem 0 0.75rem;
+    color:var(--accent-dark);
+  }
+  .thankyou p{
+    color:var(--ink-soft);
+    font-size:1.05rem;
+  }
+  footer{
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:0.8rem;
+    margin-top:2rem;
+  }
+  .hidden{display:none !important;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="ampersand">Sarah &amp; Andrew</div>
+    <h1>Wedding Questionnaire</h1>
+    <p class="subtitle">A little homework for the two of you, from your officiant.</p>
+    <hr class="divider">
+  </header>
+
+  <section class="welcome-note">
+    <p>Hello! If you fill out this &quot;questionnaire&quot; it will help me to start thinking about your ceremony language. I won&rsquo;t necessarily use any or all of the information in your responses for the ceremony (though I might, so be specific if you don&rsquo;t want me to use something), but it&rsquo;s good background/vibes. Please each fill out your own version and send back, by August 6 if possible.</p>
+  </section>
+
+  <section id="countdown-section">
+    <p class="card-title">Countdown to the big day</p>
+    <div id="countdown-live"></div>
+  </section>
+
+  <section id="progress-section">
+    <p class="card-title">Speech progress board</p>
+    <div id="progress-live"></div>
+  </section>
+
+  <section>
+    <form id="quest-form" novalidate>
+
+      <div class="field">
+        <label for="who">Who&rsquo;s answering? <span class="req">*</span></label>
+        <select id="who" name="who" class="who-select" required>
+          <option value="" disabled selected>Select your name&hellip;</option>
+          <option value="Sarah">Sarah</option>
+          <option value="Andrew">Andrew</option>
+        </select>
+        <p class="hint">Your answers are only ever sent to your officiant &mdash; your partner won&rsquo;t see them.</p>
+      </div>
+
+      <fieldset>
+        <legend>The Origin Story &amp; Milestones</legend>
+        <div class="field">
+          <label for="q_meet">How did you meet?</label>
+          <textarea id="q_meet" name="q_meet"></textarea>
+        </div>
+        <div class="field">
+          <label for="q_first_impression">What was your first impression of your partner?</label>
+          <textarea id="q_first_impression" name="q_first_impression"></textarea>
+        </div>
+        <div class="field">
+          <label for="q_first_date">Where was your first date?</label>
+          <textarea id="q_first_date" name="q_first_date"></textarea>
+        </div>
+        <div class="field">
+          <label for="q_first_words">What was the first thing your partner said to you?</label>
+          <textarea id="q_first_words" name="q_first_words"></textarea>
+        </div>
+        <div class="field">
+          <label for="q_second_date">Where was your second date?</label>
+          <textarea id="q_second_date" name="q_second_date"></textarea>
+        </div>
+        <div class="field">
+          <label for="q_first_trip">Where was your first trip together?</label>
+          <textarea id="q_first_trip" name="q_first_trip"></textarea>
+        </div>
+        <div class="field">
+          <label for="q_the_one">When was the exact moment you knew they were &ldquo;the one&rdquo;?</label>
+          <textarea id="q_the_one" name="q_the_one"></textarea>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Personality, Habits &amp; Favorites</legend>
+        <div class="field">
+          <label for="q_three_favorites">What are your three favorite things about your partner?</label>
+          <textarea id="q_three_favorites" name="q_three_favorites"></textarea>
+        </div>
+        <div class="field">
+          <label for="q_annoying">What is the most annoying thing your partner does?</label>
+          <textarea id="q_annoying" name="q_annoying"></textarea>
+        </div>
+        <div class="field">
+          <label for="q_good_at">What is something your partner is particularly good at?</label>
+          <textarea id="q_good_at" name="q_good_at"></textarea>
+        </div>
+        <div class="field">
+          <label for="q_activities">What are your favorite activities to do together?</label>
+          <textarea id="q_activities" name="q_activities"></textarea>
+        </div>
+        <div class="field">
+          <label for="q_not_together">What do you definitely not like to do together?</label>
+          <textarea id="q_not_together" name="q_not_together"></textarea>
+        </div>
+        <div class="field">
+          <label for="q_holidays">What are your favorite holidays to celebrate together?</label>
+          <textarea id="q_holidays" name="q_holidays"></textarea>
+        </div>
+        <div class="field">
+          <label for="q_traditions">What traditions do you share?</label>
+          <textarea id="q_traditions" name="q_traditions"></textarea>
+        </div>
+        <div class="field">
+          <label for="q_media">What are your favorite books? Movies? TV shows? Podcasts?</label>
+          <textarea id="q_media" name="q_media"></textarea>
+        </div>
+        <div class="field">
+          <label for="q_debate">Lighthearted debate: Who takes longer to get ready? Any other funny inside jokes?</label>
+          <textarea id="q_debate" name="q_debate"></textarea>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>The Ceremony &amp; Future Vision</legend>
+        <div class="field">
+          <label for="q_vibe">What do you want the overall vibe of your wedding ceremony to be?</label>
+          <textarea id="q_vibe" name="q_vibe"></textarea>
+        </div>
+        <div class="field">
+          <label for="q_structure">Do you have a vision for the structure of the ceremony?</label>
+          <textarea id="q_structure" name="q_structure"></textarea>
+        </div>
+        <div class="field">
+          <label for="q_readings">Do you want any specific passages/quotes read during the ceremony?</label>
+          <textarea id="q_readings" name="q_readings"></textarea>
+        </div>
+        <div class="field">
+          <label for="q_future">What are your shared dreams, bucket list goals, or promises for the future?</label>
+          <textarea id="q_future" name="q_future"></textarea>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Deep &amp; Sentimental</legend>
+        <div class="field">
+          <label for="q_support">How do you support each other through hard times?</label>
+          <textarea id="q_support" name="q_support"></textarea>
+        </div>
+        <div class="field">
+          <label for="q_mutual_stories">What are your favorite stories involving mutual friends or family members?</label>
+          <textarea id="q_mutual_stories" name="q_mutual_stories"></textarea>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Anything Else</legend>
+        <div class="field">
+          <label for="q_anything_else">Anything else I should know, or anything you want to secretly share with me?</label>
+          <textarea id="q_anything_else" name="q_anything_else" style="min-height:8rem;"></textarea>
+        </div>
+      </fieldset>
+
+      <input type="hidden" name="subject" id="subject-field" value="Wedding questionnaire">
+      <input type="hidden" name="from_name" value="Sarah & Andrew Wedding Questionnaire Site">
+
+      <div class="submit-row">
+        <button type="submit" class="submit-btn" id="submit-btn">Send answers</button>
+        <p class="autosave-note" id="autosave-note">Your answers autosave to this device as you type.</p>
+        <p class="status-msg" id="status-msg" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+
+    <div class="thankyou hidden" id="thankyou-panel">
+      <div class="ampersand">&hearts;</div>
+      <h2>Thank you!</h2>
+      <p>Your answers have been sent along. I can&rsquo;t wait to read them &mdash; see you both soon.</p>
+    </div>
+  </section>
+
+  <footer>
+    Made with care for Sarah &amp; Andrew&rsquo;s big day.
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  // ====== EDITABLE CONSTANTS ======
+  const WEB3FORMS_ACCESS_KEY = "PASTE_KEY_HERE"; // I'll fill this in
+
+  const WEDDING_DATE = "2026-10-10T16:00:00"; // edit me — wedding date/time
+
+  // Speech progress board stats — edit freely
+  const PROGRESS_STATS = [
+    { name: "Drafting stage", percent: 60 },
+    { name: "Funny stories gathered", percent: Math.round((12/10)*100), display: "12 / 10" },
+    { name: "Dad jokes considered (then rejected)", percent: 35, display: "35%" },
+    { name: "Tissues stockpiled", percent: 80, display: "80%" }
+  ];
+  // ====== END EDITABLE CONSTANTS ======
+
+  // ---- Countdown ----
+  const countdownEl = document.getElementById("countdown-live");
+  const weddingDate = new Date(WEDDING_DATE);
+
+  function renderCountdown(){
+    const now = new Date();
+    const diff = weddingDate - now;
+    if (isNaN(weddingDate.getTime())) {
+      countdownEl.innerHTML = '<p class="hint">Set WEDDING_DATE in the code to see the countdown.</p>';
+      return;
+    }
+    if (diff <= 0) {
+      countdownEl.innerHTML = '<p class="countdown-done">It&rsquo;s wedding day! 🎉</p>';
+      return;
+    }
+    const totalSeconds = Math.floor(diff / 1000);
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    countdownEl.innerHTML =
+      '<div class="countdown-grid">' +
+        unit(days, "Days") +
+        unit(hours, "Hours") +
+        unit(minutes, "Minutes") +
+        unit(seconds, "Seconds") +
+      '</div>';
+  }
+
+  function unit(value, label){
+    return '<div class="countdown-unit"><span class="countdown-num">' + value + '</span><span class="countdown-label">' + label + '</span></div>';
+  }
+
+  renderCountdown();
+  setInterval(renderCountdown, 1000);
+
+  // ---- Progress board ----
+  const progressEl = document.getElementById("progress-live");
+  progressEl.innerHTML = PROGRESS_STATS.map(function(stat){
+    const pct = Math.max(0, Math.min(100, stat.percent));
+    const displayVal = stat.display || (pct + "%");
+    return (
+      '<div class="stat">' +
+        '<div class="stat-row"><span class="stat-name">' + escapeHtml(stat.name) + '</span><span class="stat-value">' + escapeHtml(displayVal) + '</span></div>' +
+        '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%"></div></div>' +
+      '</div>'
+    );
+  }).join("");
+
+  function escapeHtml(str){
+    const div = document.createElement("div");
+    div.textContent = String(str);
+    return div.innerHTML;
+  }
+
+  // ---- Form: autosave to localStorage, keyed by who's answering ----
+  const form = document.getElementById("quest-form");
+  const whoSelect = document.getElementById("who");
+  const submitBtn = document.getElementById("submit-btn");
+  const statusMsg = document.getElementById("status-msg");
+  const thankyouPanel = document.getElementById("thankyou-panel");
+  const subjectField = document.getElementById("subject-field");
+
+  const questionFields = Array.from(form.querySelectorAll("textarea[name]"));
+
+  function storageKey(who){
+    return "wedding-questionnaire:" + who;
+  }
+
+  function loadAnswersFor(who){
+    if (!who) return;
+    let saved = {};
+    try {
+      saved = JSON.parse(localStorage.getItem(storageKey(who)) || "{}");
+    } catch (e) {
+      saved = {};
+    }
+    questionFields.forEach(function(field){
+      field.value = saved[field.name] || "";
+    });
+  }
+
+  function saveAnswers(){
+    const who = whoSelect.value;
+    if (!who) return;
+    const data = {};
+    questionFields.forEach(function(field){
+      data[field.name] = field.value;
+    });
+    try {
+      localStorage.setItem(storageKey(who), JSON.stringify(data));
+    } catch (e) {
+      // localStorage unavailable — silently skip autosave
+    }
+  }
+
+  let previousWho = "";
+  whoSelect.addEventListener("change", function(){
+    saveAnswersForPrevious();
+    previousWho = whoSelect.value;
+    loadAnswersFor(whoSelect.value);
+    updateSubject();
+  });
+
+  function saveAnswersForPrevious(){
+    if (!previousWho) return;
+    const data = {};
+    questionFields.forEach(function(field){
+      data[field.name] = field.value;
+    });
+    try {
+      localStorage.setItem(storageKey(previousWho), JSON.stringify(data));
+    } catch (e) {}
+  }
+
+  function updateSubject(){
+    const who = whoSelect.value || "Unknown";
+    subjectField.value = "Wedding questionnaire — " + who;
+  }
+
+  questionFields.forEach(function(field){
+    field.addEventListener("input", debounce(saveAnswers, 400));
+  });
+
+  function debounce(fn, wait){
+    let t;
+    return function(){
+      clearTimeout(t);
+      t = setTimeout(fn, wait);
+    };
+  }
+
+  // Try to restore last-used "who" on load, if previously set in this browser
+  try {
+    const lastWho = localStorage.getItem("wedding-questionnaire:last-who");
+    if (lastWho === "Sarah" || lastWho === "Andrew") {
+      whoSelect.value = lastWho;
+      previousWho = lastWho;
+      loadAnswersFor(lastWho);
+      updateSubject();
+    }
+  } catch (e) {}
+
+  whoSelect.addEventListener("change", function(){
+    try { localStorage.setItem("wedding-questionnaire:last-who", whoSelect.value); } catch (e) {}
+  });
+
+  // ---- Submit via Web3Forms ----
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    statusMsg.textContent = "";
+    statusMsg.className = "status-msg";
+
+    if (!whoSelect.value) {
+      statusMsg.textContent = "Please select who's answering before sending.";
+      statusMsg.className = "status-msg error";
+      whoSelect.focus();
+      return;
+    }
+
+    if (WEB3FORMS_ACCESS_KEY === "PASTE_KEY_HERE" || !WEB3FORMS_ACCESS_KEY) {
+      statusMsg.textContent = "Form isn't connected yet — the Web3Forms access key needs to be added. Please try again later.";
+      statusMsg.className = "status-msg error";
+      return;
+    }
+
+    updateSubject();
+    saveAnswers();
+
+    const payload = {
+      access_key: WEB3FORMS_ACCESS_KEY,
+      subject: subjectField.value,
+      from_name: "Wedding Questionnaire Site",
+      "Answering as": whoSelect.value
+    };
+    questionFields.forEach(function(field){
+      const label = field.previousElementSibling && field.previousElementSibling.tagName === "LABEL"
+        ? field.previousElementSibling.textContent
+        : field.name;
+      payload[label] = field.value || "(no answer)";
+    });
+
+    submitBtn.disabled = true;
+    statusMsg.textContent = "Sending your answers&hellip;";
+    statusMsg.className = "status-msg saving";
+    statusMsg.innerHTML = "Sending your answers&hellip;";
+
+    fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(payload)
+    })
+      .then(function(res){ return res.json().then(function(json){ return { ok: res.ok, json: json }; }); })
+      .then(function(result){
+        if (result.ok && result.json && result.json.success) {
+          form.classList.add("hidden");
+          thankyouPanel.classList.remove("hidden");
+          thankyouPanel.setAttribute("tabindex", "-1");
+          thankyouPanel.focus();
+        } else {
+          throw new Error((result.json && result.json.message) || "Submission failed");
+        }
+      })
+      .catch(function(){
+        statusMsg.textContent = "Something went wrong sending your answers. Please check your connection and try again.";
+        statusMsg.className = "status-msg error";
+        submitBtn.disabled = false;
+      });
+  });
+
+})();
+</script>
+</body>
+</html>
