@@ -691,15 +691,20 @@
     updateSubject();
     saveAnswers();
 
-    const payload = {
-      access_key: WEB3FORMS_ACCESS_KEY,
-      subject: subjectField.value,
-      from_name: "Sarah & Andrew Wedding Questionnaire Site",
-      "Answering as": whoSelect.value
-    };
+    // Sent as FormData (multipart/form-data) rather than JSON: a JSON Content-Type
+    // forces a CORS preflight, and Web3Forms's preflight response redirects, which
+    // browsers refuse to follow. FormData is CORS-safelisted so no preflight is
+    // sent, and unlike text/plain it's a body format Web3Forms actually accepts.
+    // Note: do NOT set a Content-Type header here — the browser must set it itself
+    // so it can include the multipart boundary.
+    const formData = new FormData();
+    formData.append("access_key", WEB3FORMS_ACCESS_KEY);
+    formData.append("subject", subjectField.value);
+    formData.append("from_name", "Sarah & Andrew Wedding Questionnaire Site");
+    formData.append("Answering as", whoSelect.value);
     questionFields.forEach(function(field){
       const label = field.parentElement.querySelector("label");
-      payload[label ? label.textContent : field.name] = field.value || "(no answer)";
+      formData.append(label ? label.textContent : field.name, field.value || "(no answer)");
     });
 
     submitBtn.disabled = true;
@@ -709,14 +714,9 @@
     fetch("https://api.web3forms.com/submit", {
       method: "POST",
       headers: {
-        // Deliberately "text/plain" (not "application/json"): a JSON Content-Type
-        // forces a CORS preflight, and Web3Forms's preflight response redirects,
-        // which browsers reject. "text/plain" is CORS-safelisted so no preflight
-        // is sent — Web3Forms still parses the JSON body correctly either way.
-        "Content-Type": "text/plain;charset=utf-8",
         "Accept": "application/json"
       },
-      body: JSON.stringify(payload)
+      body: formData
     })
       .then(function(res){
         return res.text().then(function(text){
