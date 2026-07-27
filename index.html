@@ -714,18 +714,31 @@
       },
       body: JSON.stringify(payload)
     })
-      .then(function(res){ return res.json().then(function(json){ return { ok: res.ok, json: json }; }); })
+      .then(function(res){
+        return res.text().then(function(text){
+          let json = null;
+          try { json = JSON.parse(text); } catch (parseErr) { /* non-JSON response */ }
+          return { ok: res.ok, status: res.status, json: json, raw: text };
+        });
+      })
       .then(function(result){
         if (result.ok && result.json && result.json.success) {
           form.classList.add("hidden");
           thankyouPanel.classList.remove("hidden");
           thankyouPanel.setAttribute("tabindex", "-1");
           thankyouPanel.focus();
-        } else {
-          throw new Error((result.json && result.json.message) || "Submission failed");
+          return;
         }
+        console.error("Web3Forms submission was rejected:", result);
+        const apiMessage = result.json && result.json.message;
+        statusMsg.textContent = apiMessage
+          ? ("Couldn't send your answers: " + apiMessage)
+          : "Something went wrong sending your answers (server responded with an error). Please check your connection and try again.";
+        statusMsg.className = "status-msg error";
+        submitBtn.disabled = false;
       })
-      .catch(function(){
+      .catch(function(err){
+        console.error("Web3Forms submission failed to send:", err);
         statusMsg.textContent = "Something went wrong sending your answers. Please check your connection and try again.";
         statusMsg.className = "status-msg error";
         submitBtn.disabled = false;
